@@ -14,13 +14,13 @@ public class EmployeeRepository : IEmployeeRepository
         _dataContext = dataContext;
     }
 
-    public async Task<IEnumerable<Employee>> GetAll()
+    public async Task<IEnumerable<Employee>> GetAllAsync()
     {
-        return await _dataContext.Employees.ToListAsync();
+        return await _dataContext.Employees.Include(x => x.Dependents).ToListAsync();
     }
 
-    public async Task<Employee?> GetById(int id)
+    public async Task<Employee?> GetByIdAsync(int id)
     {
-        return await _dataContext.Employees.FirstOrDefaultAsync(x => x.Id == id);
+        return await _dataContext.Employees.Include(x => x.Dependents).FirstOrDefaultAsync(x => x.Id == id);
     }
 }

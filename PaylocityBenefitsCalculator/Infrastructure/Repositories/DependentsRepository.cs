@@ -14,12 +14,19 @@ public class DependentsRepository : IDependentsRepository
         _dataContext = dataContext;
     }
 
-    public async Task<IEnumerable<Dependent>> GetAll()
+    public async Task<Dependent> CreateAsync(Dependent dependent)
+    {
+        var result = await _dataContext.Dependent.AddAsync(dependent);
+        await _dataContext.SaveChangesAsync();
+        return result.Entity;
+    }
+
+    public async Task<IEnumerable<Dependent>> GetAllAsync()
     {
         return await _dataContext.Dependent.ToListAsync();
     }
 
-    public async Task<Dependent?> GetById(int id)
+    public async Task<Dependent?> GetByIdAsync(int id)
     {
         return await _dataContext.Dependent.FirstOrDefaultAsync();
     }

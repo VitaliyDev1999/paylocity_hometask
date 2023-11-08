@@ -1,6 +1,7 @@
 ﻿using Api.Dtos.Dependent;
 using Api.Dtos.Employee;
 using Api.Models;
+using Application.Features.Dependent.CreateDependent;
 using Application.Features.Dependent.GetAllDependent;
 using Application.Features.Dependent.GetDependentById;
 using AutoMapper;
@@ -51,6 +52,30 @@ public class DependentsController : ControllerBase
         var response = new ApiResponse<List<GetDependentDto>>
         {
             Data = _mapper.Map<List<GetDependentDto>>(result.DependentQueryResult),
+            Success = true
+        };
+
+        return response;
+    }
+
+    [SwaggerOperation(Summary = "Add dependents")]
+    [HttpPost]
+    public async Task<ActionResult<ApiResponse<CreateDependentDto>>> CreateDependents(CreateDependentRequest request)
+    {
+        var command = new CreateDependentCommand()
+        {
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Relationship = request.Relationship,
+            EmployeeId = request.EmployeeId,
+            DateOfBirth = request.DateOfBirth
+        };
+
+        var result = await _mediator.Send(command);
+
+        var response = new ApiResponse<CreateDependentDto>
+        {
+            Data = _mapper.Map<CreateDependentDto>(result),
             Success = true
         };
 

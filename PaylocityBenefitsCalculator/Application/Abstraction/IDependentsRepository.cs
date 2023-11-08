@@ -4,7 +4,9 @@ namespace Application.Abstraction;
 
 public interface IDependentsRepository
 {
-    public Task<Dependent?> GetById(int id);
+    public Task<Dependent?> GetByIdAsync(int id);
 
-    public Task<IEnumerable<Dependent>> GetAll();
+    public Task<IEnumerable<Dependent>> GetAllAsync();
+
+    public Task<Dependent> CreateAsync(Dependent dependent);
 }

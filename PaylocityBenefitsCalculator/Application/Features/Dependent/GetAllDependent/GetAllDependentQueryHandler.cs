@@ -19,7 +19,7 @@ internal class GetAllDependentQueryHandler : IRequestHandler<GetAllDependentQuer
 
     public async Task<GetAllDependentQueryResult> Handle(GetAllDependentQuery request, CancellationToken cancellationToken)
     {
-        var result = await _dependentsRepository.GetAll();
+        var result = await _dependentsRepository.GetAllAsync();
 
         return new GetAllDependentQueryResult()
         {

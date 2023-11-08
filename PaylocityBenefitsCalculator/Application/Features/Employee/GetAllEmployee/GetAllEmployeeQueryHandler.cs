@@ -17,7 +17,7 @@ internal class GetAllEmployeeQueryHandler : IRequestHandler<GetAllEmployeeQuery,
 
     public async Task<GetAllEmployeeQueryResult> Handle(GetAllEmployeeQuery request, CancellationToken cancellationToken)
     {
-        var result = await _employeeRepository.GetAll();
+        var result = await _employeeRepository.GetAllAsync();
 
         return new GetAllEmployeeQueryResult()
         {

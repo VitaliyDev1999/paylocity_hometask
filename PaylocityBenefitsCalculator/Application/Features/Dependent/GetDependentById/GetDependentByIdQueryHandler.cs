@@ -17,7 +17,7 @@ public class GetDependentByIdQueryHandler : IRequestHandler<GetDependentByIdQuer
 
     public async Task<GetDependentByIdQueryResult> Handle(GetDependentByIdQuery request, CancellationToken cancellationToken)
     {
-        var response = await _dependentsRepository.GetById(request.Id) ?? throw new Exception("Dependent was not found.");
+        var response = await _dependentsRepository.GetByIdAsync(request.Id) ?? throw new Exception("Dependent was not found.");
 
         return new GetDependentByIdQueryResult()
         {

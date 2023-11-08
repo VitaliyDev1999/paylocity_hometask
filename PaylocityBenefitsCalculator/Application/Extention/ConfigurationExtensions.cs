@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Behaviors;
+using Application.Features.Dependent.CreateDependent;
+using FluentValidation;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Extention;
 
@@ -12,6 +16,11 @@ public static class ConfigurationExtensions
         {
             cfg.RegisterServicesFromAssemblyContaining(typeof(IApplicationAssemblyMarker));
         });
+
+
+        // Register the ValidationBehavior with MediatR.
+        serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        serviceCollection.AddTransient<IValidator<CreateDependentCommand>, CreateDependentCommandValidator>();
 
         return serviceCollection;
     }

@@ -17,7 +17,7 @@ internal class GetEmployeeByIdQueryHandler : IRequestHandler<GetEmployeeByIdQuer
 
     public async Task<GetEmployeeByIdQueryResult> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
     {
-        var response = await _employeeRepository.GetById(request.Id) ?? throw new Exception("Employee was not found.");
+        var response = await _employeeRepository.GetByIdAsync(request.Id) ?? throw new Exception("Employee was not found.");
 
         return new GetEmployeeByIdQueryResult()
         {

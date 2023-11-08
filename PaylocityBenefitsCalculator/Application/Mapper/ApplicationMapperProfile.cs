@@ -1,5 +1,6 @@
 ﻿using Application.Entities;
 using Application.Features.Dependent;
+using Application.Features.Dependent.CreateDependent;
 using Application.Features.Employee;
 using AutoMapper;
 
@@ -11,5 +12,6 @@ public class ApplicationMapperProfile : Profile
     {
         CreateMap<Employee, GetEmployeeQueryResult>();
         CreateMap<Dependent, GetDependentQueryResult>();
+        CreateMap<Dependent, CreateDependentCommandResult>();
     }
 }
