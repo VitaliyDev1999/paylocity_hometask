@@ -1,3 +1,6 @@
+using Api;
+using Application.Extention;
+using Infrastructure.Extention;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,12 +21,18 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddAutoMapper(typeof(IApplicationAssemblyMarker));
+
 var allowLocalhost = "allow localhost";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(allowLocalhost,
         policy => { policy.WithOrigins("http://localhost:3000", "http://localhost"); });
 });
+
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure();
+
 
 var app = builder.Build();
 

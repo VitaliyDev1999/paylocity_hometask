@@ -1,4 +1,4 @@
-namespace Api.Models;
+﻿namespace Application.Entities;
 
 public enum Relationship
 {
@@ -7,4 +7,3 @@ public enum Relationship
     DomesticPartner,
     Child
 }
-

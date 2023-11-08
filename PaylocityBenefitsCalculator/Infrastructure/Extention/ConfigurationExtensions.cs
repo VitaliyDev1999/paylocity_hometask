@@ -1,22 +1,31 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-using Api.Dtos.Dependent;
-using Api.Dtos.Employee;
-using Api.Models;
+﻿using Application.Abstraction;
 using Application.Entities;
-using Xunit;
+using Infrastructure.Contexts;
+using Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace ApiTests.IntegrationTests;
+namespace Infrastructure.Extention;
 
-public class EmployeeIntegrationTests : IntegrationTest
+public static class ConfigurationExtensions
 {
-    [Fact]
-    public async Task WhenAskedForAllEmployees_ShouldReturnAllEmployees()
+    public static IServiceCollection AddInfrastructure(this IServiceCollection serviceCollection)
     {
-        var response = await HttpClient.GetAsync("/api/v1/employees");
-        var employees = new List<GetEmployeeDto>
+        serviceCollection.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseInMemoryDatabase("InMemoryDb");
+        }).SeedData();
+
+        serviceCollection.AddScoped<IEmployeeRepository, EmployeeRepository>();
+        serviceCollection.AddScoped<IDependentsRepository, DependentsRepository>();
+
+        return serviceCollection;
+    }
+
+    public static void SeedData(this IServiceCollection serviceCollection)
+    {
+        #region Employee Mock
+        var employees = new List<Employee>
         {
             new()
             {
@@ -33,7 +42,7 @@ public class EmployeeIntegrationTests : IntegrationTest
                 LastName = "Morant",
                 Salary = 92365.22m,
                 DateOfBirth = new DateTime(1999, 8, 10),
-                Dependents = new List<GetDependentDto>
+                Dependents = new List<Dependent>
                 {
                     new()
                     {
@@ -68,7 +77,7 @@ public class EmployeeIntegrationTests : IntegrationTest
                 LastName = "Jordan",
                 Salary = 143211.12m,
                 DateOfBirth = new DateTime(1963, 2, 17),
-                Dependents = new List<GetDependentDto>
+                Dependents = new List<Dependent>
                 {
                     new()
                     {
@@ -81,31 +90,13 @@ public class EmployeeIntegrationTests : IntegrationTest
                 }
             }
         };
-        await response.ShouldReturn(HttpStatusCode.OK, employees);
-    }
+        #endregion
 
-    [Fact]
-    //task: make test pass
-    public async Task WhenAskedForAnEmployee_ShouldReturnCorrectEmployee()
-    {
-        var response = await HttpClient.GetAsync("/api/v1/employees/1");
-        var employee = new GetEmployeeDto
-        {
-            Id = 1,
-            FirstName = "LeBron",
-            LastName = "James",
-            Salary = 75420.99m,
-            DateOfBirth = new DateTime(1984, 12, 30)
-        };
-        await response.ShouldReturn(HttpStatusCode.OK, employee);
-    }
-    
-    [Fact]
-    //task: make test pass
-    public async Task WhenAskedForANonexistentEmployee_ShouldReturn404()
-    {
-        var response = await HttpClient.GetAsync($"/api/v1/employees/{int.MinValue}");
-        await response.ShouldReturn(HttpStatusCode.NotFound);
+        using var scope = serviceCollection.BuildServiceProvider().CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        context.Database.EnsureCreated();
+        context.Employees.AddRange(employees);
+        context.SaveChanges();
     }
 }
 
