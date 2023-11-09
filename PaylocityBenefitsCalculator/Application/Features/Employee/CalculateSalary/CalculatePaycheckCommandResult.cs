@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Application.Features.Employee.CalculateSalary;
 
-namespace Application.Features.Employee.CalculateSalary
+public class CalculatePaycheckCommandResult
 {
-    internal class CalculatePaycheckCommandResult
-    {
-    }
+    public decimal Paycheck { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿using Application.Abstraction;
+﻿using Application.Abstraction.Repositories;
 using Application.Entities;
 using Application.Features.Dependent.CreateDependent;
 using FluentValidation;

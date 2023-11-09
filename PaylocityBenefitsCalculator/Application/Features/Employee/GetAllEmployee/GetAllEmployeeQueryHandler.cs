@@ -1,4 +1,4 @@
-﻿using Application.Abstraction;
+﻿using Application.Abstraction.Repositories;
 using AutoMapper;
 using MediatR;
 

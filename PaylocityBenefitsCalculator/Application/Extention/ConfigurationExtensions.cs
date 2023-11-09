@@ -1,4 +1,6 @@
-﻿using Application.Behaviors;
+﻿using Application.Abstraction;
+using Application.Behaviors;
+using Application.Calculator;
 using Application.Features.Dependent.CreateDependent;
 using FluentValidation;
 using MediatR;
@@ -21,6 +23,7 @@ public static class ConfigurationExtensions
         // Register the ValidationBehavior with MediatR.
         serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         serviceCollection.AddTransient<IValidator<CreateDependentCommand>, CreateDependentCommandValidator>();
+        serviceCollection.AddTransient<IPaycheckCalculator, PaycheckCalculator>();
 
         return serviceCollection;
     }

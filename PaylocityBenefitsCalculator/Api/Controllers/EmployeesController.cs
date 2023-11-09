@@ -60,15 +60,15 @@ public class EmployeesController : ControllerBase
 
     [SwaggerOperation(Summary = "Calculate paycheck")]
     [HttpPost("{employeeId}/calculatePaycheck")]
-    public async Task<ActionResult<ApiResponse<List<object>>>> CalculatePaycheck(int employeeId)
+    public async Task<ActionResult<ApiResponse<CalculatePaycheckDto>>> CalculatePaycheck(int employeeId)
     {
         var command = new CalculatePaycheckCommand() { EmployeeId = employeeId };
 
         var result = await _mediator.Send(command);
 
-        var response = new ApiResponse<List<object>>
+        var response = new ApiResponse<CalculatePaycheckDto>
         {
-            Data = null,
+            Data = _mapper.Map<CalculatePaycheckDto>(result),
             Success = true
         };
 

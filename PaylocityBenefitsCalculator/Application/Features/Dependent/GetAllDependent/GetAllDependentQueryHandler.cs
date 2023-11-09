@@ -1,8 +1,8 @@
-﻿using Application.Abstraction;
-using Application.Features.Employee.GetAllEmployee;
+﻿using Application.Features.Employee.GetAllEmployee;
 using Application.Features.Employee;
 using AutoMapper;
 using MediatR;
+using Application.Abstraction.Repositories;
 
 namespace Application.Features.Dependent.GetAllDependent;
 

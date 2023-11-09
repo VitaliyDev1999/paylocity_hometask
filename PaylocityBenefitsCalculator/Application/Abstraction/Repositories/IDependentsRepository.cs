@@ -1,6 +1,6 @@
 ﻿using Application.Entities;
 
-namespace Application.Abstraction;
+namespace Application.Abstraction.Repositories;
 
 public interface IDependentsRepository
 {
