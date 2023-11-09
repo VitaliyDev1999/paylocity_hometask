@@ -11,10 +11,19 @@ public static class ConfigurationExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddDbContext<AppDbContext>(options =>
+
+        if (!serviceCollection.Any(s => s.ServiceType == typeof(AppDbContext)))
         {
-            options.UseInMemoryDatabase("InMemoryDb");
-        }).SeedData();
+            serviceCollection.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseInMemoryDatabase("InMemoryDb");
+            }).SeedData();
+        }
+
+        //serviceCollection.AddDbContext<AppDbContext>(options =>
+        //{
+        //    options.UseInMemoryDatabase("InMemoryDb");
+        //}).SeedData();
 
         serviceCollection.AddScoped<IEmployeeRepository, EmployeeRepository>();
         serviceCollection.AddScoped<IDependentsRepository, DependentsRepository>();

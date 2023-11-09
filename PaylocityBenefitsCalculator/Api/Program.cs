@@ -1,4 +1,5 @@
 using Api;
+using Api.Middlewares;
 using Application.Extention;
 using Infrastructure.Extention;
 using Microsoft.OpenApi.Models;
@@ -51,4 +52,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseMiddleware<ErrorHandlerMiddleware>();
+
 app.Run();
+
+public partial class Program
+{
+}

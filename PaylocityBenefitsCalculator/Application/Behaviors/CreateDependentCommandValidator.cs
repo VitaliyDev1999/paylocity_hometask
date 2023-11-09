@@ -28,7 +28,7 @@ public sealed class CreateDependentCommandValidator : AbstractValidator<CreateDe
 
     private async Task<bool> BeValidRelationshipAsync(CreateDependentCommand command)
     {
-        var employee = _employeeRepository.GetByIdAsync(command.EmployeeId).GetAwaiter().GetResult();
+        var employee = await _employeeRepository.GetByIdAsync(command.EmployeeId);
         var relationship = command.Relationship;
 
         if (relationship == Relationship.Spouse && employee.Dependents.Any(d => d.Relationship == Relationship.DomesticPartner || d.Relationship == Relationship.Spouse))

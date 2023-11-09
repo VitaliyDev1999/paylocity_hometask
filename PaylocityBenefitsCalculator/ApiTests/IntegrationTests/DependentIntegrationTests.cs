@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Api.Dtos.Dependent;
 using Application.Entities;
@@ -18,7 +19,7 @@ public class DependentIntegrationTests : IntegrationTest
         var dependents = new List<GetDependentDto>
         {
             new()
-            {
+            {   
                 Id = 1,
                 FirstName = "Spouse",
                 LastName = "Morant",

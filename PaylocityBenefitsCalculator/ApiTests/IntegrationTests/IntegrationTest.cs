@@ -1,10 +1,12 @@
-using System;
+﻿using System;
 using System.Net.Http;
 
-namespace ApiTests;
+namespace ApiTests.IntegrationTests;
 
 public class IntegrationTest : IDisposable
 {
+
+    //Tried to do it with TestWebApplicationFactoryFactory to created tests with self hosted app but faced issue with duplication calls
     private HttpClient? _httpClient;
 
     protected HttpClient HttpClient
@@ -30,4 +32,3 @@ public class IntegrationTest : IDisposable
         HttpClient.Dispose();
     }
 }
-
