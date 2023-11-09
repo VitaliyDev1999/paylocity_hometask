@@ -13,24 +13,38 @@ public class PaycheckBuilder
 
     public PaycheckBuilder WithEmployee(Employee employee)
     {
+        Employee = employee ?? throw new ArgumentNullException(nameof(employee));
         Employee = employee;
         return this;
     }
 
     public PaycheckBuilder WithAnnualSalary(decimal annualSalary)
     {
+        if (annualSalary < 0)
+        {
+            throw new ArgumentException("Annual salary cannot be negative.");
+        }
+
         AnnualSalary = annualSalary;
         return this;
     }
 
     public PaycheckBuilder WithMonthlyBaseBenefitCost(decimal monthlyBaseBenefitCost = 1000M)
     {
+        if (monthlyBaseBenefitCost < 0)
+        {
+            throw new ArgumentException("Monthly base benefit cost cannot be negative.");
+        }
         TotalYearBenefitCost += monthlyBaseBenefitCost * 12;
         return this;
     }
 
     public PaycheckBuilder WithNumberOfPaychecks(int numOfPaychecks = 26)
     {
+        if (numOfPaychecks <= 0)
+        {
+            throw new ArgumentException("Number of paychecks must be greater than zero.");
+        }
         NumOfPaychecks = numOfPaychecks;
         return this;
     }
@@ -57,6 +71,16 @@ public class PaycheckBuilder
 
     public decimal ComputePaycheck()
     {
+        if (NumOfPaychecks <= 0)
+        {
+            throw new InvalidOperationException("Number of paychecks must be set before computing the paycheck.");
+        }
+
+        if (AnnualSalary <= 0)
+        {
+            throw new InvalidOperationException("Annual salary be set before computing the paycheck.");
+        }
+
         var paycheck = (AnnualSalary - TotalYearBenefitCost) / NumOfPaychecks;
         return Math.Round(paycheck, 2);
     } 
