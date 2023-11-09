@@ -1,6 +1,7 @@
 ﻿using Api.Dtos.Employee;
 using Api.Models;
 using Application.Entities;
+using Application.Features.Employee.CalculateSalary;
 using Application.Features.Employee.GetAllEmployee;
 using Application.Features.Employee.GetEmployeeById;
 using AutoMapper;
@@ -51,6 +52,23 @@ public class EmployeesController : ControllerBase
         var response  = new ApiResponse<List<GetEmployeeDto>>
         {
             Data = _mapper.Map<List<GetEmployeeDto>>(result.EmployeeQueryResults),
+            Success = true
+        };
+
+        return response;
+    }
+
+    [SwaggerOperation(Summary = "Calculate paycheck")]
+    [HttpPost("{employeeId}/calculatePaycheck")]
+    public async Task<ActionResult<ApiResponse<List<object>>>> CalculatePaycheck(int employeeId)
+    {
+        var command = new CalculatePaycheckCommand() { EmployeeId = employeeId };
+
+        var result = await _mediator.Send(command);
+
+        var response = new ApiResponse<List<object>>
+        {
+            Data = null,
             Success = true
         };
 

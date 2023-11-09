@@ -14,10 +14,10 @@ public sealed class CreateDependentCommandValidator : AbstractValidator<CreateDe
         _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
 
         RuleFor(x => x.EmployeeId).MustAsync( async (employeeId, cancellationToken) => await BeValidUserAsync(employeeId))
-            .WithMessage("Employee was not found.");
+            .WithMessage("Employee was not found.").WithErrorCode("404");
 
         RuleFor(x => x).MustAsync(async (command, cancellationToken) => await BeValidRelationshipAsync(command))
-            .WithMessage("An employee may only have 1 spouse or domestic partner (not both).");
+            .WithMessage("An employee may only have 1 spouse or domestic partner (not both).").WithErrorCode("400");
     }
 
     private async Task<bool> BeValidUserAsync(int employeeId)
