@@ -5,11 +5,11 @@ namespace Application.Builders;
 
 public class PaycheckBuilder
 {
-    private Employee? Employee { get; set; }
+    public Employee? Employee { get; private set; }
 
-    private int NumOfPaychecks { get; set; }
-    private decimal AnnualSalary {get; set; }
-    private decimal TotalYearBenefitCost { get; set; }
+    public int NumOfPaychecks { get; private set; }
+    public decimal AnnualSalary {get; private set; }
+    public decimal TotalYearBenefitCost { get; private set; }
 
     public PaycheckBuilder WithEmployee(Employee employee)
     {
