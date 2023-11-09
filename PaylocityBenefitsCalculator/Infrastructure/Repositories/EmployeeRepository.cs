@@ -5,22 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class EmployeeRepository : IEmployeeRepository
+public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
 {
-    private readonly  AppDbContext _dataContext;
+    private readonly AppDbContext _dataContext;
 
     public EmployeeRepository(AppDbContext dataContext)
+        : base(dataContext)
     {
         _dataContext = dataContext;
     }
 
-    public async Task<IEnumerable<Employee>> GetAllAsync()
+    public override async Task<IEnumerable<Employee>> GetAllAsync()
     {
         return await _dataContext.Employees.Include(x => x.Dependents).ToListAsync();
-    }
-
-    public async Task<Employee?> GetByIdAsync(int id)
-    {
-        return await _dataContext.Employees.Include(x => x.Dependents).FirstOrDefaultAsync(x => x.Id == id);
     }
 }

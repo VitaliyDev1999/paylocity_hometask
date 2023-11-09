@@ -2,9 +2,6 @@
 
 namespace Application.Abstraction.Repositories;
 
-public interface IEmployeeRepository
+public interface IEmployeeRepository : IBaseRepository<Employee>
 {
-    public Task<Employee?> GetByIdAsync(int id);
-
-    public Task<IEnumerable<Employee>> GetAllAsync();
 }

@@ -5,29 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class DependentsRepository : IDependentsRepository
+public class DependentsRepository : BaseRepository<Dependent>, IDependentsRepository
 {
     private readonly AppDbContext _dataContext;
 
     public DependentsRepository(AppDbContext dataContext)
+        :base(dataContext)
     {
         _dataContext = dataContext;
-    }
-
-    public async Task<Dependent> CreateAsync(Dependent dependent)
-    {
-        var result = await _dataContext.Dependent.AddAsync(dependent);
-        await _dataContext.SaveChangesAsync();
-        return result.Entity;
-    }
-
-    public async Task<IEnumerable<Dependent>> GetAllAsync()
-    {
-        return await _dataContext.Dependent.ToListAsync();
-    }
-
-    public async Task<Dependent?> GetByIdAsync(int id)
-    {
-        return await _dataContext.Dependent.FirstOrDefaultAsync();
     }
 }

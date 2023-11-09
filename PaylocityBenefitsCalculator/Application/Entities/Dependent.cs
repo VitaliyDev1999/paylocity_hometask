@@ -1,6 +1,6 @@
 ﻿namespace Application.Entities;
 
-public class Dependent
+public class Dependent : BaseEntity
 {
     public int Id { get; set; }
     public string? FirstName { get; set; }

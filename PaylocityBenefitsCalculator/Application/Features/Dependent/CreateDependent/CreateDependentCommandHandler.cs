@@ -28,7 +28,7 @@ public class CreateDependentCommandHandler : IRequestHandler<CreateDependentComm
             Relationship = request.Relationship
         };
 
-        var result = await _dependentsRepository.CreateAsync(dependent);
+        var result = await _dependentsRepository.InsertAsync(dependent);
 
         return _mapper.Map<CreateDependentCommandResult>(result);
     }
